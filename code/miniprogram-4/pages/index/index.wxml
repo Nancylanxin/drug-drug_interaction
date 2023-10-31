@@ -1,0 +1,43 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="userinfo">
+        <block wx:if="{{canIUseOpenData}}">
+            <view class="userinfo-avatar" bindtap="bindViewTap">
+                <open-data type="userAvatarUrl"></open-data>
+            </view>
+            <open-data type="userNickName"></open-data>
+        </block>
+        <block wx:elif="{{!hasUserInfo}}">
+            <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+            <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+            <view wx:else> 请使用1.4.4及以上版本基础库 </view>
+        </block>
+        <block wx:else>
+            <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+            <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+    </view>
+
+    <view class="form">
+        <view class="form-row">
+            <input class="form-input" placeholder="请输入药品" bindinput="bindField101Input" value="{{formData.field101}}" />
+            <button class="scan" style="width: 40px; height: 35px; padding: 0%;margin-left: 20px;" bindtap="scanCode"></button>
+        </view>
+        <view class="form-row">
+            <input class="form-input" placeholder="请输入药品" bindinput="bindField102Input" value="{{formData.field102}}" />
+            <button class="scan" style="width: 40px; height: 35px; padding: 0%;margin-left: 20px;"  bindtap="scanCode2"></button>
+        </view>
+        <view class="form-row">
+            <!-- <view class="form-label">查询</view> -->
+            <button class="form-button primary-button" type="primary" bindtap="submitForm">点击查询</button>
+        </view>
+        <view class="form-row">
+            <!-- <view class="form-label">药品间的相互作用如下</view> -->
+            <!-- <input class="form-input form-input-three-rows" placeholder="显示相互作用" bindinput="bindField104Input" value="{{formData.field104}}" /> -->
+            <textarea class="form-input .form-input-three-rows" placeholder="显示相互作用" bindinput="bindField104Input" value="{{formData.field104}}" rows="3"></textarea>
+        </view>
+        <view class="form-row">
+            <button class="form-button" bindtap="resetForm">重置</button>
+        </view>
+    </view>
+</view>
