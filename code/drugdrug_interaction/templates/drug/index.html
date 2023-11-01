@@ -1,10 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>{{ title }}</title>
+    <meta charset="UTF-8">
+    <title>药药相互</title>
+    <script src="js/jquery-3.7.1.js"></script>
+    <style>
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .search-box {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .search-input {
+            
+			top: 94px;
+			width: 222px;
+			height: 61px;
+			line-height: 29px;
+			border-radius: 20px 20px 20px 20px;
+			background-color: rgba(255, 255, 255, 1);
+			color: rgba(136, 136, 136, 1);
+			font-size: 20px;
+			text-align: left;
+			font-family: Microsoft Yahei;
+			border: 1px solid rgba(187, 187, 187, 1);
+        }
+        .search-button {
+            margin-left: 10px;
+            height: 30px;
+            padding: 0 10px;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+        }
+        .result-textarea {
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+        .medicine-list {
+            margin-top: 20px;
+        }
+        .medicine-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .medicine-list th, .medicine-list td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .medicine-details {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // 查询按钮点击事件
+            $('#search-btn').click(function() {
+                var medicineA = $('#medicine-a').val();
+                var medicineB = $('#medicine-b').val();
+                var resultTextarea = $('#result-textarea');
+
+                // TODO: 发起查询请求，获取药品相互作用结果，并显示在多行文本域中
+                // 这里仅为示例，显示查询药品名称和输入的药品A、药品B
+                resultTextarea.val("查询结果：\n药品名称：" + medicineA + " 和 " + medicineB);
+
+            });
+
+            // 添加药品项按钮点击事件
+            $('#add-medicine-btn').click(function() {
+                var medicineItem = $('<div class="medicine-item"><input type="text" class="medicine-input" placeholder="输入药品名"><button class="remove-item-btn">删除</button></div>');
+                $('.medicine-list').append(medicineItem);
+            });
+
+            // 删除药品项按钮点击事件
+            $('.medicine-list').on('click', '.remove-item-btn', function() {
+                $(this).closest('.medicine-item').remove();
+            });
+
+            // 药品搜索按钮点击事件
+            $('#medicine-search-btn').click(function() {
+                var keyword = $('#medicine-search-input').val();
+
+                // TODO: 发起搜索请求，获取匹配的药品列表，并显示在表格中
+                // 这里仅为示例，显示搜索关键词
+                $('.medicine-list table tbody').html('<tr><td colspan="4">搜索结果：' + keyword + '</td></tr>');
+            });
+
+            // 药品详情点击事件
+            $('.medicine-list').on('click', '.medicine-details', function() {
+                var medicineName = $(this).data('name');
+
+                // TODO: 跳转到药品详情页面，根据药品名称获取详情内容
+                // 这里仅为示例，在控制台输出药品名称
+                console.log("跳转到药品详情页：" + medicineName);
+            });
+        });
+    </script>
 </head>
 <body>
-<h1>{{ welcome }}</h1>
+    <div class="container">
+        <h1>药药相互</h1>
+        <h2 style="text-align: center;">一个查询、预测药品相互作用的平台</h2>
+
+        <!-- 查询药品相互作用 -->
+        <div class="search-box">
+            <input type="text" id="medicine-a" class="search-input" placeholder="输入药品A">
+            <input type="text" id="medicine-b" class="search-input" placeholder="输入药品B">
+            <button id="search-btn" class="search-button">查询</button>
+        </div>
+		<div class="medicine-list">
+		    <h3>添加药品项：</h3>
+		    <div class="medicine-item">
+		        <input type="text" class="medicine-input" placeholder="输入药品名">
+		        <button class="remove-item-btn">删除</button>
+		    </div>
+		    <button id="add-medicine-btn">添加药品项</button>
+		</div>
+        <textarea id="result-textarea" class="result-textarea" placeholder="查询结果"></textarea>
+
+        <!-- 添加药品项 -->
+        
+
+        <!-- 药品搜索 -->
+        <div class="search-box">
+            <input type="text" id="medicine-search-input" class="search-input" placeholder="输入药品关键词">
+            <button id="medicine-search-btn" class="search-button">搜索</button>
+        </div>
+
+        <!-- 药品列表 -->
+        <div class="medicine-list">
+            <h3>药品列表：</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>药品名称</th>
+                        <th>相互作用的药品</th>
+                        <th>作用效果</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 这里根据搜索结果或全部药品显示对应的表格行 -->
+                    <tr>
+                        <td>药品A</td>
+                        <td>药品B、药品C</td>
+                        <td>作用效果A</td>
+                        <td><span class="medicine-details" data-name="药品A">详情</span></td>
+                    </tr>
+                    <tr>
+                        <td>药品B</td>
+                        <td>药品A、药品D</td>
+                        <td>作用效果B</td>
+                        <td><span class="medicine-details" data-name="药品B">详情</span></td>
+                    </tr>
+                    <!-- ... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

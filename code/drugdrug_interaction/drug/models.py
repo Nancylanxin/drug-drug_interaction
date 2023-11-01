@@ -3,6 +3,9 @@ from django.db import models
 
 # Create your models here.
 
+import sqlite3
+conn = sqlite3.connect("sqlite.db")#打开或创建数据库
+
 
 class Detail(models.Model):
     name2 = models.CharField(max_length=30)
