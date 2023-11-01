@@ -22,9 +22,9 @@ class Introduction(models.Model):
 
 
 class Interaction(models.Model):
-    drug1 = models.ForeignKey(Detail, on_delete=models.CASCADE, related_name='interactions')
-    drug2 = models.ForeignKey(Detail, on_delete=models.CASCADE)
-    interaction_type = models.CharField(max_length=100)
+    drug1 = models.CharField(max_length=100, default='阿莫西林')
+    drug2 = models.CharField(max_length=100, default='阿莫西林')
+    interaction_type = models.CharField(max_length=100, default='阿莫西林')
 
     def __str__(self):
         return f"{self.drug1} - {self.drug2}".CharField(max_length=150)
