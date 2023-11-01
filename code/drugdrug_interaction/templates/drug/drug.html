@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>药品相互作用查询</title>
+	<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+	<style type="text/css">
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f7f7f7;
+			margin: 0;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		}
+		.search-container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+		.search-container input[type="text"] {
+			flex: 1;
+			padding: 10px;
+			font-size: 18px;
+			border: 2px solid #ccc;
+			border-radius: 5px 0 0 5px;
+		}
+		.search-container button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 0 5px 5px 0;
+			cursor: pointer;
+			font-size: 18px;
+		}
+		.drug-name {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		.interaction-info {
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="search-container">
+			<input type="text" id="drug-input" placeholder="输入药品名称">
+			<button id="search-button">搜索</button>
+		</div>
+		<div class="drug-name"></div>
+		<table id="interaction-table">
+			<thead>
+				<tr>
+					<th>药品名称</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>被查询的药品：</td>
+					<td class="drug-input-value"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="interaction-info">药物情况：</div>
+		<!-- 这里将显示药物详情的文本框 -->
+		<p id="drug-details-text"></p>
+		</div>
+		</div>
+		
+		<script>
+			$(document).ready(function(){
+				// 当点击搜索按钮时触发事件
+				$('#search-button').click(function(){
+					var drugName = $('#drug-input').val(); // 获取用户输入的药品名称
+					searchDrug(drugName); // 调用搜索药品函数
+				});
+				
+				// 定义搜索药品函数
+				function searchDrug(drugName){
+					// 这里可以使用Ajax请求向后端发送药品查询请求，获取药品名称和药品详情
+					// 假设获取的数据为一个包含药品名称和药品详情的对象
+					var drugData = {
+						name: "药品名称",
+						details: "药品详情内容..."
+					};
+					
+					// 清空之前的搜索结果
+					$('.drug-name').empty();
+					$('#drug-details-text').empty();
+					
+					// 显示被查询的药品名称
+					$('.drug-name').text(drugData.name);
+					
+					// 显示药品详情
+					$('#drug-details-text').text(drugData.details);
+				}
+			});
+		</script>
+	</div>
+</body>
+</html>
+
+
