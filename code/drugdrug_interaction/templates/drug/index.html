@@ -1,19 +1,10 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>{{ title }}</title>
-  <link rel="stylesheet" href="{% static 'drug/css/index.css' %}">
 </head>
 <body>
-  <h1>{{ welcome }}</h1>
-
-  <ul>
-    {% for drug in drug_list %}
-      <li>{{ drug.name }} - {{ drug.ingredient }} - {{ drug.interdrug }}</li>
-    {% endfor %}
-  </ul>
-
+<h1>{{ welcome }}</h1>
 </body>
 </html>
