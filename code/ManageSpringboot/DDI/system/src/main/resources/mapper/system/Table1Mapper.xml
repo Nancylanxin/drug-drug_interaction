@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.Table1Mapper">
+    
+    <resultMap type="Table1" id="Table1Result">
+        <result property="id"    column="id"    />
+        <result property="drug1"    column="drug1"    />
+        <result property="drug2"    column="drug2"    />
+        <result property="reaction"    column="reaction"    />
+    </resultMap>
+
+    <sql id="selectTable1Vo">
+        select id, drug1, drug2, reaction from table1
+    </sql>
+
+    <select id="selectTable1List" parameterType="Table1" resultMap="Table1Result">
+        <include refid="selectTable1Vo"/>
+        <where>  
+            <if test="drug1 != null  and drug1 != ''"> and drug1 = #{drug1}</if>
+            <if test="drug2 != null  and drug2 != ''"> and drug2 = #{drug2}</if>
+            <if test="reaction != null  and reaction != ''"> and reaction LIKE CONCAT('%', #{reaction}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTable1ById" parameterType="Long" resultMap="Table1Result">
+        <include refid="selectTable1Vo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTable1" parameterType="Table1" useGeneratedKeys="true" keyProperty="id">
+        insert into table1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="drug1 != null">drug1,</if>
+            <if test="drug2 != null">drug2,</if>
+            <if test="reaction != null">reaction,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="drug1 != null">#{drug1},</if>
+            <if test="drug2 != null">#{drug2},</if>
+            <if test="reaction != null">#{reaction},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTable1" parameterType="Table1">
+        update table1
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="drug1 != null">drug1 = #{drug1},</if>
+            <if test="drug2 != null">drug2 = #{drug2},</if>
+            <if test="reaction != null">reaction = #{reaction},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTable1ById" parameterType="Long">
+        delete from table1 where id = #{id}
+    </delete>
+
+    <delete id="deleteTable1ByIds" parameterType="String">
+        delete from table1 where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
