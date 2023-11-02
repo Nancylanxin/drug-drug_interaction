@@ -65,63 +65,44 @@
 </head>
 <body>
 	<div class="container">
-		<div class="drug-name"></div>
-		<table id="interaction-table">
-			<thead>
-				<tr>
-					<th>药品名称</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>被查询的药品：</td>
-					<td class="drug-input-value">{{ name }}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="drug-name">
+            <h4>被查询的药品：{{ name }}</h4>
+        </div>
 		<div id="drug-details">
-            <h4>药物情况：</h4>
+            <h3>药物情况：</h3>
             {% if detai %}
                 {% for d in detai %}
                     {{ d.details }}
                 {% endfor %}
+            {% else %}
+                暂无
             {% endif %}
+            <br>
         </div>
-		<!-- 这里将显示药物详情的文本框 -->
-		<p id="drug-details-text"></p>
-		</div>
-		</div>
-		
-		<script>
-			$(document).ready(function(){
-				// 当点击搜索按钮时触发事件
-				$('#search-button').click(function(){
-					var drugName = $('#drug-input').val(); // 获取用户输入的药品名称
-					searchDrug(drugName); // 调用搜索药品函数
-				});
-				
-				// 定义搜索药品函数
-				function searchDrug(drugName){
-					// 这里可以使用Ajax请求向后端发送药品查询请求，获取药品名称和药品详情
-					// 假设获取的数据为一个包含药品名称和药品详情的对象
-					var drugData = {
-						name: "药品名称",
-						details: "药品详情内容..."
-					};
-					
-					// 清空之前的搜索结果
-					$('.drug-name').empty();
-					$('#drug-details-text').empty();
-					
-					// 显示被查询的药品名称
-					$('.drug-name').text(drugData.name);
-					
-					// 显示药品详情
-					$('#drug-details-text').text(drugData.details);
-				}
-			});
-		</script>
+        <br/>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>相互作用的药品</th>
+                        <th>作用效果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in relations %}
+                        <tr>
+                            {% if r.drug1 == name %}
+                                <td>{{ r.drug2 }}</td>
+                            {% else %}
+                                <td>{{ r.drug1 }}</td>
+                            {% endif %}
+                            <td>{{ r.interaction }}</td>
+                        </tr>
+                    {% endfor %}
+                    <!-- ... -->
+                </tbody>
+            </table>
+        </div>
 	</div>
 </body>
 </html>
