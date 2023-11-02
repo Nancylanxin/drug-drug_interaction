@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>药药相互</title>
-    <script src="{% static 'drug/js/script.js' %}"></script>
+    <script src="{% static 'drug/js/jquery-3.7.1.js' %}"></script>
+    <script src="{% static 'drug/js/jquery-ui.min.js' %}"></script>
     <style>
         .container {
             width: 800px;
@@ -78,8 +79,17 @@
         }
     </style>
     <script>
-
-
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
         $(document).ready(function() {
             // 查询按钮点击事件
             $('#search-btn').click(function() {
@@ -129,7 +139,28 @@
                 console.log("跳转到药品详情页：" + medicineName);
             });
         });
+                           // JavaScript代码
+                function getDrugDetails(drugName) {
+  // 构建请求 URL，将 drugName 作为查询参数传递给后端
+  var url = '/drug1.html?drugName=' + encodeURIComponent(drugName);
+
+  // 发送 GET 请求到后端
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // 处理返回的药品详情信息
+      console.log(data);
+      // 在此处进行前端页面的更新操作
+      var interactionInfoElement = document.querySelector('.interaction-info');
+      interactionInfoElement.innerText = `药物情况：${data.drug_details}`;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
     </script>
+    <script src=""></script>
 </head>
 <body>
     <div class="container">
@@ -138,24 +169,24 @@
 
         <!-- 查询药品相互作用 -->
         <div class="search-box">
-            <form action="interaction" method="post">
+            <form action="/" method="post">
+                {% csrf_token %}
             <input type="text" id="medicine-a" class="search-input" placeholder="输入药品A" name="medicine-a">
             <input type="text" id="medicine-b" class="search-input" placeholder="输入药品B" name="medicine-b">
             <button id="search-btn" class="search-button">查询</button>
             </form>
         </div>
-		<div class="medicine-list">
-		    <h3>添加药品项：</h3>
-		    <div class="medicine-item">
-		        <input type="text" class="medicine-input" placeholder="输入药品名">
-		        <button class="remove-item-btn">删除</button>
-		    </div>
-		    <button id="add-medicine-btn">添加药品项</button>
-		</div>
-        <textarea id="result-textarea" class="result-textarea" placeholder="查询结果"></textarea>
+
+        <textarea id="result-textarea" class="result-textarea" placeholder="查询结果">
+            {% if interaction %}
+                {% for i in interaction %}
+                    {{ i.interaction }}
+                {% endfor %}
+            {% endif %}
+        </textarea>
 
         <!-- 添加药品项 -->
-        
+
 
         <!-- 药品搜索 -->
         <div class="search-box">
@@ -176,24 +207,32 @@
                 </thead>
                 <tbody>
                     <!-- 这里根据搜索结果或全部药品显示对应的表格行 -->
-                    <tr>
-                        <td><a href="/drug.html">药品A</a></td>
-                        <td>药品B、药品C</td>
-                        <td>作用效果A</td>
-
-                    </tr>
-                    <tr>
-                        <td><a href="/drug.html">药品A</a></td>
-                        <td>药品A、药品D</td>
-                        <td>作用效果B</td>
-
-                    </tr>
-                    {{drug_list}}
+                    {% for i in cuPage %}
+                        <tr>
+                            <td><a href="/detail?name={{ i.drug1 }}">{{ i.drug1 }}</a></td>
+                        <td>{{ i.drug2 }}</td>
+                        <td>{{ i.interaction }}</td>
+                        </tr>
+                    {% endfor %}
                     <!-- ... -->
                 </tbody>
             </table>
+        <div>
+            <span>页码：</span>
+            {% for i in allPage %}
+                <a href="/?page={{ i }}">{{ i }}</a>
+            {% endfor %}
+        </div>
         </div>
     </div>
+<script>
+ document.querySelector('a').addEventListener('click', function(event) {
+            event.preventDefault(); // 阻止默认链接点击行为
+
+            var drugName = this.innerText; // 获取药品名称
+            getDrugDetails(drugName);
+        });
+</script>
 </body>
 </html>
 
