@@ -184,9 +184,17 @@
             <input type="text" id="medicine-a" class="search-input" placeholder="输入药品A" name="medicine-a">
             <input type="text" id="medicine-b" class="search-input" placeholder="输入药品B" name="medicine-b">
             <button id="search-btn" class="search-button">查询</button>
+             </form>
+        </div>
+        <br>
+        <div>
+             <form action="/" method="post">
+                {% csrf_token %}
+            <input type="text" id="medicine-aa" class="search-input" placeholder="输入药品SMILES" name="medicine-aa">
+            <input type="text" id="medicine-bb" class="search-input" placeholder="输入药品SMILES" name="medicine-bb">
+            <button id="test-btn" class="search-button">检测</button>
             </form>
         </div>
-
         <textarea id="result-textarea" class="result-textarea" placeholder="查询结果">
             {% if interaction %}
                 {% for i in interaction %}
