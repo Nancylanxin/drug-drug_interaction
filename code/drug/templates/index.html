@@ -120,17 +120,6 @@
                 });
             });
 
-            // 添加药品项按钮点击事件
-            $('#add-medicine-btn').click(function() {
-                var medicineItem = $('<div class="medicine-item"><input type="text" class="medicine-input" placeholder="输入药品名"><button class="remove-item-btn">删除</button></div>');
-                $('.medicine-list').append(medicineItem);
-            });
-
-            // 删除药品项按钮点击事件
-            $('.medicine-list').on('click', '.remove-item-btn', function() {
-                $(this).closest('.medicine-item').remove();
-            });
-
             // 药品搜索按钮点击事件
             $('#medicine-search-btn').click(function() {
                 var keyword = $('#medicine-search-input').val();
