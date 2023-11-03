@@ -23,8 +23,8 @@ def get_page(page):
     page = int(page)
     #  获取所有信息
     interactionAll = Interaction.objects.all()
-    #  分页，每页十条
-    p = Paginator(interactionAll, 10)
+    #  分页，每页十五条
+    p = Paginator(interactionAll, 15)
     if page < 1:
         page = 1
     #  当前页面
