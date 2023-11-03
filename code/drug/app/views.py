@@ -50,3 +50,5 @@ def detail(request):
         relations = Interaction.objects.filter(drug2=name)
 
     return render(request, 'drug.html', locals())
+
+
